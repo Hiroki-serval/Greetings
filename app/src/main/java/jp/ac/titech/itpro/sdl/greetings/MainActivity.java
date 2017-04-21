@@ -2,12 +2,47 @@ package jp.ac.titech.itpro.sdl.greetings;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.util.Log;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private final String TAG = "MainActivity";
+
+    private TextView outputView;
+    private EditText inputName;
+    private Button okButton;
+
+    private final static String KEY_NAME = "MainActivity.name";
+    private String name = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG,"onCreate");
+
+        outputView=(TextView)findViewById(R.id.output_view);
+        inputName=(EditText)findViewById(R.id.input_name);
+        okButton=(Button)findViewById(R.id.ok_button);
+        okButton.setOnClickListener(this);
+
+        if (savedInstanceState != null)
+            name = savedInstanceState.getString(KEY_NAME);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.d(TAG,"onCrick");
+        switch (v.getId()) {
+            case R.id.ok_button:
+                String name = inputName.getText().toString();
+                if (name != null && name.length() > 0)
+                    outputView.setText("Hello, " + name + "\nNice to see yoU!");
+                break;
+        }
     }
 }
